@@ -211,8 +211,11 @@ module GraphQL
       rename_node = ->(node, _parent) do
         definition = definitions[node.name]
         if definition
+          defined_name = definition.name
           node.extend(LazyName)
-          node.name = -> { definition.definition_name }
+          node.name = -> {
+            defined_name || definition.definition_name
+          }
         end
       end
       visitor = Language::Visitor.new(doc)
