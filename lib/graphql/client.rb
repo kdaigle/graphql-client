@@ -193,8 +193,8 @@ module GraphQL
 
         errors = validator.validate(query)
         errors.fetch(:errors).each do |error|
-          validation_line = error["locations"][0]["line"]
-          error = ValidationError.new(error["message"])
+          validation_line = error.line
+          error = ValidationError.new(error.message)
           error.set_backtrace(["#{filename}:#{lineno + validation_line}"] + caller) if filename && lineno
           raise error
         end
